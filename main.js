@@ -2,6 +2,15 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('node:path')
 
+if (!app.requestSingleInstanceLock({ myEmptyArray: [] })) {
+  app.quit();
+  process.exit(0);
+}
+
+app.on('second-instance', (_event, _commandLine, _workingDirectory, additionalData) => {
+  console.log('second-instance additionalData:', additionalData);
+});
+
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
